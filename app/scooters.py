@@ -17,14 +17,11 @@ def scooters():
 
     uid = session.get("user_id")
 
-    # 2) забираємо всі активні самокати та активні трипи (один запит на тип)
     all_scooters = Scooter.query.filter_by(is_active=True).all()
     active_trips = {t.scooter_id: t for t in Trip.query.filter_by(status="started").all()}
 
-    # 3) формуємо список відповіді
     items = []
     for s in all_scooters:
-        # визначення статусу
         t = active_trips.get(s.id)
         if t:
             status = "in_trip_me" if uid and t.user_id == uid else "in_trip_other"
@@ -34,7 +31,6 @@ def scooters():
             else:
                 status = "available"
 
-        # фільтр по радіусу (radius<=0 показуємо все)
         d = haversine_km(lat, lng, s.lat, s.lng)
         if radius <= 0 or d <= radius:
             items.append({
@@ -47,7 +43,6 @@ def scooters():
                 "reserved_until": s.reserved_until.isoformat() + "Z" if s.reserved_until else None
             })
 
-    # 4) ГАРАНТОВАНО повертаємо JSON
     return jsonify(ok=True, items=items)
 
 

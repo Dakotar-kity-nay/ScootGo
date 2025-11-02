@@ -6,10 +6,9 @@ from dotenv import load_dotenv
 db = SQLAlchemy()
 
 def create_app():
-    load_dotenv()  # читає .env
+    load_dotenv()
     app = Flask(__name__, static_folder="static", template_folder="templates")
 
-    # Конфіг
     app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "dev-secret")
     app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL", "sqlite:///scootgo.db")
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -20,7 +19,6 @@ def create_app():
         from . import models
         db.create_all()
 
-    # Реєстрація blueprints
     with app.app_context():
         from .auth import auth_bp
         from .scooters import scooters_bp

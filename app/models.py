@@ -34,5 +34,5 @@ class Trip(db.Model):
 
     duration_sec = db.Column(db.Integer, nullable=True)
     distance_km = db.Column(db.Float, nullable=True)
-    price_uah = db.Column(db.Integer, nullable=True)     # цінник цілою грн
-    status = db.Column(db.String(20), default="started") # started|ended|cancelled
+    price_uah = db.Column(db.Integer, nullable=True)
+    status = db.Column(db.String(20), default="started")

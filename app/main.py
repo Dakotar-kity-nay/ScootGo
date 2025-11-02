@@ -35,8 +35,8 @@ def admin_seed():
     for i in range(n):
         db.session.add(Scooter(
             code=f"SCT-DEMO-{random.randint(10000,99999)}",
-            lat=lat + random.uniform(-0.01, 0.01),     # ~±1.1 км
-            lng=lng + random.uniform(-0.015, 0.015),   # ~±1.1 км
+            lat=lat + random.uniform(-0.01, 0.01),
+            lng=lng + random.uniform(-0.015, 0.015),
             battery=random.randint(60,100),
             is_locked=True,
             is_active=True

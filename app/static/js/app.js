@@ -29,10 +29,8 @@ async function api(path, method='GET', body=null){
     const isJson = ct.includes('application/json');
     const data = isJson ? await res.json() : { ok:false, error: (await res.text()).slice(0,500) };
 
-    // якщо HTTP не ОК, але сервер повернув JSON з помилкою — лишаємо як є
     if (!res.ok && isJson && data && data.ok !== true) return data;
 
-    // якщо HTTP не ОК і не JSON — формуємо зрозуміле повідомлення
     if (!res.ok && !isJson) return { ok:false, error:`HTTP ${res.status}. ${data.error || 'No JSON'}` };
 
     return data;
@@ -69,7 +67,7 @@ async function me(){
     document.getElementById('me_balance').textContent=r.user.balance_uah;
 
     if(r.active_trip){
-      activeTrip = r.active_trip;               // маємо code/coords/time
+      activeTrip = r.active_trip;
       activeTripId = activeTrip.id;
       document.getElementById('end_btn').style.display='inline-block';
       startTripTicker();
@@ -96,15 +94,15 @@ function showAuth(logged){
 
 function showAll(){
   const radiusInput = document.getElementById('radius');
-  if (radiusInput) radiusInput.value = 0;     // 0 = "показати все" (бекенд це підтримує)
+  if (radiusInput) radiusInput.value = 0;
   findScooters();
 }
-window.showAll = showAll;  // зробимо глобальною
+window.showAll = showAll;
 
 function clearMarkers(){ markers.forEach(m=>map.removeLayer(m)); markers=[]; }
 
-async function findScooters(){
-  // 1) одразу прибираємо старі маркери, щоб не плутали
+async function findScooters()
+{
   clearMarkers();
 
   const radius = parseFloat(document.getElementById('radius').value || '1');
@@ -189,14 +187,14 @@ function stopTripTicker(){
   if(tripTicker){ clearInterval(tripTicker); tripTicker=null; }
 }
 
-function highlightActiveOnMap(){
-  // коли маркери вже змальовані — знайдемо «in_trip_me» і підсвітимо
+function highlightActiveOnMap()
+{
   if (!markers.length || !activeTrip) return;
   for (const m of markers){
     if (m.__status === 'in_trip_me'){
       activeScooterMarker = m;
       m.openPopup();
-      // легенький "центр" на маркер
+
       map.panTo(m.getLatLng());
       break;
     }
@@ -234,8 +232,8 @@ async function endTrip(){
 }
 
 
-function styleForStatus(status){
-  // колір маркера за станом
+function styleForStatus(status)
+{
   switch(status){
     case 'available':      return { radius: 8, color:'#1f9d55', fillColor:'#1f9d55', weight:2, fillOpacity:0.8 }; // зелений
     case 'reserved_me':    return { radius: 9, color:'#d97706', fillColor:'#f59e0b', weight:3, fillOpacity:0.9 }; // помаранчевий (мій)
@@ -275,7 +273,6 @@ function setGeoMarker(lat, lng, accuracyMeters){
     geoMarker.setLatLng(pos);
   }
 
-  // Необов'язково: коло точності
   if (accuracyMeters) {
     if (!geoAccuracy) {
       geoAccuracy = L.circle(pos, { radius: accuracyMeters, weight:1, fillOpacity:0.1 }).addTo(map);
@@ -298,9 +295,6 @@ function useGeo(){
       setGeoMarker(latitude, longitude, accuracy);
       map.setView(myPos, 14);
 
-      // Хочеш одразу близький радіус? — розкоментуй наступний рядок:
-      // document.getElementById('radius').value = 2;
-
       findScooters();
     },
     (err) => log('Не вдалося отримати геолокацію: ' + err.message),
@@ -308,8 +302,7 @@ function useGeo(){
   );
 }
 
-// ВАЖЛИВО: зробимо функції глобальними для inline onclick=...
 window.useGeo = useGeo;
 
 
-me(); // спробує показати стан користувача
+me

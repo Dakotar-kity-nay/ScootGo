@@ -59,12 +59,10 @@ def end_trip():
     trip.price_uah = compute_price_uah(trip.duration_sec, trip.distance_km)
     trip.status = "ended"
 
-    # списання з "гаманця"
     if u.balance_uah < trip.price_uah:
         pass
     u.balance_uah = max(0, u.balance_uah - trip.price_uah)
 
-    # повертаємо самокат
     s.lat, s.lng = lat, lng
     s.is_locked = True
     s.battery = max(0, s.battery - min(20, int(trip.duration_sec/60)))
