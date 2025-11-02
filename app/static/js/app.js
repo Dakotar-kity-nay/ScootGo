@@ -12,6 +12,10 @@ let activeTrip = null;
 let tripTicker = null;
 let activeScooterMarker = null;
 
+document.addEventListener('DOMContentLoaded', () => {
+  findScooters();
+});
+
 
 function log(msg){
   const el=document.getElementById('log');
@@ -97,7 +101,6 @@ function showAll(){
   if (radiusInput) radiusInput.value = 0;
   findScooters();
 }
-window.showAll = showAll;
 
 function clearMarkers(){ markers.forEach(m=>map.removeLayer(m)); markers=[]; }
 
@@ -302,7 +305,11 @@ function useGeo(){
   );
 }
 
+window.findScooters = findScooters;
+window.showAll = showAll;
 window.useGeo = useGeo;
+window.reserve = reserve;
+window.startTrip = startTrip;
+window.endTrip = endTrip;
 
-
-me
+me();

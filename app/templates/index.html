@@ -43,25 +43,28 @@
     <b>Пошук самокатів</b>
     <label>Радіус (км) <input id="radius" type="number" min="0" step="0.2" value="1.0"></label>
   <div class="row">
-    <button class="primary" onclick="findScooters()">Показати поруч</button>
-    <button onclick="useGeo()">📍 Моя геолокація</button>
-    <button onclick="showAll()">Показати всі</button>
-  </div>
-
-  <small class="hint">
-    Порада: натисни “📍 Моя геолокація” або перетягни карту. “Показати всі” — ставить великий радіус і показує всі знайдені самокати.
-  </small>
+  <button type="button" class="primary" onclick="findScooters()">Знайти</button>
+  <button type="button" onclick="showAll()">Показати всі</button>
 </div>
+
+<div class="row">
+  <button type="button" onclick="useGeo()">Моя геолокація</button>
+</div>
+
+<hr>
 
 <div class="card">
-  <b>Активна поїздка</b>
-  <div id="trip_info">немає</div>
-  <div id="trip_stats" class="hint"></div>
-  <button onclick="endTrip()" id="end_btn" style="display:none">Завершити поїздку</button>
+  <div><b>Активна поїздка:</b> <span id="trip_info">немає</span></div>
+  <div id="trip_stats" style="font-size:12px; color:#555"></div>
+  <button id="end_btn" style="display:none; margin-top:8px" onclick="endTrip()">Завершити поїздку</button>
 </div>
 
 
-  <div id="log"></div>
+
+<hr>
+
+<small class="hint">Логи</small>
+<div id="log" style="max-height:180px; overflow:auto; border:1px solid #eee; border-radius:8px; padding:8px"></div>
 </aside>
 
 <div id="map"></div>
